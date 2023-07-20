@@ -1,3 +1,8 @@
+********
+
+getline(cin, strig의 자료형 이름)을 써주면 띄어쓰기가 포함된 string 배열을 받을 수 있다.
+
+********
 # [Silver V] UCPC는 무엇의 약자일까? - 15904 
 
 [문제 링크](https://www.acmicpc.net/problem/15904) 
