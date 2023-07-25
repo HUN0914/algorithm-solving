@@ -1,3 +1,17 @@
+************
+map 사용법 [계속 익히자]
+https://hwan-shell.tistory.com/149
+https://life-with-coding.tistory.com/305
+
+map에서 value 기준으로 정렬하기. (vector로 옮겨서 하자)
+https://unluckyjung.github.io/cpp/2020/05/07/Sort_map_by_value/
+
+
+value의 값을 늘리는 법
+m[key]++;을 하면 된다.
+
+************
+
 # [Silver IV] 카드 - 11652 
 
 [문제 링크](https://www.acmicpc.net/problem/11652) 
