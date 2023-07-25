@@ -1,3 +1,10 @@
+********
+map을 vector로 옮기는 방법. 정렬하는 방법
+
+https://unluckyjung.github.io/cpp/2020/05/07/Sort_map_by_value/
+
+*******
+
 # [Silver IV] 베스트셀러 - 1302 
 
 [문제 링크](https://www.acmicpc.net/problem/1302) 
