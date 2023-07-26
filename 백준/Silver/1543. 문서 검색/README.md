@@ -1,3 +1,17 @@
+******************
+string에서의 strlen 함수
+
+string.substr(i,j) string이라는 문자열에 i번째부터 j개의 글자를 추출해줌 [중요!!]
+
+반복문의 범위
+
+i<=stan.length() - wordlen;
+어짜피 저 범위를 지나쳤을 때, 원하는 단어를 찾고 이에 대해 word와 맞는지 판단을 할 때, word의 모든 글자를 담아낼 수가 없다.
+
+*****************
+
+
+
 # [Silver IV] 문서 검색 - 1543 
 
 [문제 링크](https://www.acmicpc.net/problem/1543) 
