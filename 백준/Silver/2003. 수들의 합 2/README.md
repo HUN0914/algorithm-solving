@@ -1,3 +1,19 @@
+*************
+개념적인 이해를 위해서라면
+
+https://butter-shower.tistory.com/226
+
+------------------
+
+실질적인 코드를 위해서라면
+
+https://ansohxxn.github.io/algorithm/twopointer/
+
+주석으로 상세 내용을 달아놓았으니, 투포인터에 대해서 이해하고 공부할 것
+
+*************
+
+
 # [Silver IV] 수들의 합 2 - 2003 
 
 [문제 링크](https://www.acmicpc.net/problem/2003) 
