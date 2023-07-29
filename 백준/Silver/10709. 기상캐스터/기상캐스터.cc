@@ -48,7 +48,7 @@ int main() {
 			if (square[i][j] == 'c')
 			{
 				count++;
-				space[i][j] == 0;
+				space[i][j] = 0;
 				if (count != 1)
 				{
 					count = 1;
