@@ -1,3 +1,7 @@
+---
+질문 게시판 답변 올라오면 다시 풀기
+-----
+
 # [Silver IV] 반복수열 - 2331 
 
 [문제 링크](https://www.acmicpc.net/problem/2331) 
