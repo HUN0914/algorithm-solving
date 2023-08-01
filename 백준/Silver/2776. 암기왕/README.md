@@ -1,3 +1,11 @@
+-----------------------
+
+set에서의 find는 이진트리로 이루어져있기 때문에, 시간 복잡도는 O(logn)이다.
+set과 vector은 둘 다 clear을 쓸 수 있다. (stack은 pop으로 제거)
+
+
+-------------------------
+
 # [Silver IV] 암기왕 - 2776 
 
 [문제 링크](https://www.acmicpc.net/problem/2776) 
