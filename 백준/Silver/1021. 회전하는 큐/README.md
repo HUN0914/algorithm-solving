@@ -1,3 +1,26 @@
+*******************************
+
+이 문제를 풀며 배운점.
+
+1. deque에서도 find를 쓸 수 있다.
+
+*auto it = std::find(q.begin(), q.end(), targetNumber);*
+
+2. distance 명령어
+
+*int position = distance(q.begin(), it);*
+3.  deque은 앞과 뒤에서 둘 다 뺄 수 있다.
+
+
+개인적으로 문제를 풀 때, deque와 queue에 대한 이해도가 부족한 문제였던 것 같다.
+
+
+
+
+
+*********************************
+
+
 # [Silver III] 회전하는 큐 - 1021 
 
 [문제 링크](https://www.acmicpc.net/problem/1021) 
