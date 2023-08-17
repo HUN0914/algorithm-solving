@@ -21,7 +21,6 @@ int main(void)
 
 	vector<long long>far;
 
-	vector<long long> dp(n+1);
 
 	vector<long long>pay; //값 +1개 더 있는 거
 
@@ -38,7 +37,11 @@ int main(void)
 		pay.push_back(val);
 	}
 
+	vector<long long> dp(n);
+
+
 	dp[0] = pay[0] * far[0];
+
 
 
 	for (int i = 1; i < n-1; i++) //far i+1이 문제임
@@ -46,6 +49,12 @@ int main(void)
 		
 		dp[i] = dp[i-1] + (min(pay[i], pay[i-1])*far[i]);
 	}
+
+	//for (int i = 0; i < n - 1; i++)
+	//{
+	//	cout << dp[i]<<endl;
+	//}
+	
 	cout << dp[n - 2];
 
 	return 0;
