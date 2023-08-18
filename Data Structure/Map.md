@@ -49,3 +49,22 @@ iterator을 굳이 사용할 필요는 없다.
 m.insert({"Alice", 100});
 
 key값, value 값 순으로 입력 (대괄호)
+
+
+
+
+-----------------------
+
+[map에서의 key 값 혹은 value 값 접근]
+
+map은 다른 자료구조와 마찬가지로 iterator을 사용할 수 있다. (iterator은 pointer처럼 동작하기에, 선언 및 운용도 pointer처럼 해주어야 한다.)
+
+ex)
+
+
+		for(iter=m.begin(); iter!=m.end(); iter++)
+		{
+			ans *= (iter->second + 1);
+		}
+
+[map은 <key, value>이기에, 여기서는 value를 contact하는 것으로 볼 수 있다.
