@@ -1,5 +1,7 @@
 ************
 
+https://hunidev.tistory.com/42
+
 오답노트 [답지 봄..]
 
 
