@@ -6,6 +6,8 @@
 
 위 문제를 후자로 풀었다가 틀린 문제..
 
+
+```
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <algorithm>
@@ -82,6 +84,7 @@ int main(void)
 	return 0;
 }
 
+```
 
 이렇게 했는데 안 나와서 답지 깠다 악 
 
