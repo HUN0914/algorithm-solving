@@ -51,15 +51,13 @@ int main(void)
 		{
 			for (int c = 1; c <= n; c++) // c = 도착 노드
 			{
-				if (check[b][a] && check[a][c])
-				{
 					if (map[b][c] > map[b][a] + map[a][c])
 					{
 						map[b][c] = map[b][a] + map[a][c];
 
 					}
 					check[b][c] = true;
-				}
+				
 			}
 		}
 	}
