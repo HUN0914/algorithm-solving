@@ -1,59 +1,42 @@
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 
-using namespace std;
-int i_size = 0;
-int o_size = 0;
-int counting = 0;
+using namespace  std;
 
+char word[1000001];
 
 int main(void)
 {
-
 	int n;
 	int length;
-	string word;
-	string val;
+	int numbering = 0;
+	int counting = 0;
 	cin >> n >> length;
 
-	cin >> word;
-
-	for (int i = 1; i <= length; i++)
+	for (int i = 0; i < length; i++)
 	{
-		if (n * 2 + i - 1 > length)
-		{
-			break;
-		}
+		cin >> word[i];
+	}
 
-		val = word.substr(i - 1, (n * 2 + 1));
+	for (int i = 0; i < length; i++)
+	{
+		if (word[i] == 'O') continue;
 
-		for (int j = 0; j < val.size(); j++)
+		while (word[i + 1] == 'O' && word[i + 2] == 'I')
 		{
-			if (j != 0 && j % 2 != 0)
+			numbering++;
+
+			if (numbering == n)
 			{
-				if (val[j] == 'O')
-				{
-					o_size++;
-				}
+				counting++;
+				numbering--;
+		//OIOIOIOI 이면 IOI 뒤에 OI가 어떠냐에 따라 추가해줄수도 있으니까//
 			}
-			else if (j % 2 == 0)
-			{
-				if (val[j] == 'I')
-				{
-					i_size++;
-				}
-			}
+			i = i + 2;
 		}
-
-		if (o_size == n && i_size == n + 1)
-		{
-			counting++;
-		}
-
-		o_size = 0;
-		i_size = 0;
-
+		numbering = 0;
+	
 	}
 
 	cout << counting;
+	return 0;
 }
