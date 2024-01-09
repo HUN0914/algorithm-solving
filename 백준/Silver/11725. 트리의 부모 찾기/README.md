@@ -1,3 +1,11 @@
+**********
+
+https://iridescent-zeal.tistory.com/38
+
+/BFS로 푸는 문제/ -> 참고 하기 !! 
+
+**********
+
 # [Silver II] 트리의 부모 찾기 - 11725 
 
 [문제 링크](https://www.acmicpc.net/problem/11725) 
