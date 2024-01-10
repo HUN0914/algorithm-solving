@@ -1,3 +1,93 @@
+***********
+
+#include <iostream>
+#include <algorithm>
+#include <queue>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int a, b;
+queue<int>q;
+int cnt = 0;
+
+
+
+int bfs(int something)
+{
+	q.push(a);
+
+	while (!q.empty())
+	{
+		
+
+		int something = q.front();
+		
+		if (something == b)
+		{
+			return cnt;
+		}
+
+
+		q.pop();
+
+		if (something > b) continue;
+
+		for (int i = 0; i < 2; i++)
+		{
+			if (i == 0)
+			{
+				int mul = something * 2;
+
+				q.push(mul);
+			}
+			else
+			{
+				string right = to_string(something) + "1";
+				int val_right = stoi(right);
+
+				q.push(val_right);
+
+			}
+		}
+		
+		cnt++;
+	}
+
+	return -1;
+
+}
+
+int main(void)
+{
+	cin >> a >> b;
+
+	cout << bfs(a);
+
+
+	
+
+	return 0;
+}
+
+
+* 이때는 모든 경우에 대해 탐색하니까 안되는것
+반복문 때문에 최악의 경우 탐색 횟수 *2가 됨 *
+
+
+string right = to_string(something) + "1";
+int val_right = stoi(right);
+
+
+    to_sring(어떤변수)를 해주면 string형으로 바뀌고 + "1" 해주면 바로 뒤에
+    1이 붙는다 (ex : 1234 )->to string 후 +1 => 12345
+    stoi(string 형) 을 하면 string 형 변수가 int형으로 바뀐다.
+
+    근데 왜 여기선 런타임 에러가 나와;;
+
+***********
+
 # [Silver II] A → B - 16953 
 
 [문제 링크](https://www.acmicpc.net/problem/16953) 
