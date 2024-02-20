@@ -3,7 +3,9 @@
 우선순위 큐 매개변수 인자
 
 pair<int, int>: priority_queue에 저장되는 요소의 타입을 나타냅니다. 첫 번째 int는 값, 두 번째 int는 부호를 나타냅니다.
+
 vector<pair<int, int>>: priority_queue의 내부 구현에 사용되는 컨테이너 타입을 나타냅니다. 여기서는 vector를 사용합니다.
+
 greater<pair<int, int>>: priority_queue가 작은 값을 우선순위로 간주하여 오름차순으로 정렬하도록 하는 비교 함수입니다. pair의 경우, 첫 번째 요소인 값이 작은 것이 더 우선순위가 높도록 만들어집니다.
 
 
