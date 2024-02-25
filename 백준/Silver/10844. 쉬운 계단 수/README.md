@@ -1,3 +1,12 @@
+-----
+
+https://ssinee.tistory.com/entry/%EB%B0%B1%EC%A4%80-10844%EB%B2%88-%EC%89%AC%EC%9A%B4-%EA%B3%84%EB%8B%A8-%EC%88%98-CDP
+
+표를 그리고, 왜 표에 이러한 값이 담겼는지 "규칙"을 찾기.
+
+
+-----
+
 # [Silver I] 쉬운 계단 수 - 10844 
 
 [문제 링크](https://www.acmicpc.net/problem/10844) 
