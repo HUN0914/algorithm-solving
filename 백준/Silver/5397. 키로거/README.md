@@ -1,3 +1,15 @@
+------------
+            if (!li.empty() && cur != li.begin())
+            {
+                cur = li.erase(--cur);
+            }
+
+내가 만든 코드는 문자의 오른쪽 커서를 대도록 코드를 작성하였기에 지울 때는 왼쪽 커서로 바꾼 후 제거해주어야한다.
+-=cur
+
+
+------------
+
 # [Silver II] 키로거 - 5397 
 
 [문제 링크](https://www.acmicpc.net/problem/5397) 
