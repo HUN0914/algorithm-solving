@@ -1,3 +1,9 @@
+-------------
+
+https://karen0117.tistory.com/84
+
+
+-------------
 # [Silver II] 에디터 - 1406 
 
 [문제 링크](https://www.acmicpc.net/problem/1406) 
