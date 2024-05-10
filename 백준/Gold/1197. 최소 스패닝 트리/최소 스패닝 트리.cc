@@ -13,7 +13,7 @@ bool is_diff_group(int u, int v, vector<int>& p) {
     u = find(u, p);
     v = find(v, p);
     if (u == v) return false;
-    if (p[u] == p[v]) p[u]--;
+    if (p[u] == p[v]) p[u]++;
     if (p[u] < p[v]) p[v] = u;
     else p[u] = v;
     return true;
