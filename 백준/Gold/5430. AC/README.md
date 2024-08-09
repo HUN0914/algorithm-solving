@@ -1,3 +1,12 @@
+isdigit(a) -> a가 0~9의 숫자인지 아닌지 (맞으면 true / 아니면 false 반환)
+
+reverse의 여부는 delete할 때 reverse가 있냐 없냐에만 중요한 것 그 자체로 돌려줄 필요가 없다.
+rbegin, rend
+뒤집어진 시작과 끝 반환 (deque)
+
+
+---------------
+
 # [Gold V] AC - 5430 
 
 [문제 링크](https://www.acmicpc.net/problem/5430) 
