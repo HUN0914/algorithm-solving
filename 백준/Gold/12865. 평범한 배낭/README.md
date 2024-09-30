@@ -1,3 +1,6 @@
+https://howudong.tistory.com/106
+지리는 설명을 해주는 사이트
+---
 # [Gold V] 평범한 배낭 - 12865 
 
 [문제 링크](https://www.acmicpc.net/problem/12865) 
