@@ -15,7 +15,6 @@ int main() {
             for (int j=0; j<startString.size(); j++){
                 if (startString[j]==number[i]) {
                     i++;
-                    if (i==number.size()) break;
                 }
             }
             start++;
