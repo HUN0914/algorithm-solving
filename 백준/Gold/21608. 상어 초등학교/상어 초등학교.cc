@@ -3,125 +3,109 @@
 
 using namespace std;
 
+int dy[4]={-1,1,0,0};
+int dx[4]={0,0,-1,1};
+
+int board[21][21];
 int n;
-int map[22][22];
-int checkStudentLove[22][22];
-int emptyMap[22][22];
-int dx[4]={-1,1,0,0};
-int dy[4]={0,0,-1,1};
-vector<vector<int>> arr(4001, vector<int>(4));
+vector<vector<int>>studentsList(4001);
 
-void checkLove(int studentNumber) {
-
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<n; j++) {
-            checkStudentLove[i][j]=0;
-            emptyMap[i][j]=0;
-        }
-    }
+void choiceLocation(int studentOne) {
+    int nearMaxFriends=-1;
+    int nearMaxEmpty=-1;
+    int decideY=0;
+    int decideX=0;
 
     for (int i=0; i<n; i++) {
         for (int j=0; j<n; j++) {
-            if (map[i][j] != 0) continue;
+            if (board[i][j]!=0) continue;
+            int nearFriend=0;
+            int nearEmpty=0;
             for (int k=0; k<4; k++) {
-                if (i+dy[k]<0||i+dy[k]>=n||j+dx[k]<0||j+dx[k]>=n) continue;
-
-                if (map[i+dy[k]][j+dx[k]]==0) emptyMap[i][j]++;
-
-                for (int m : arr[studentNumber]) {
-                    if (map[i+dy[k]][j+dx[k]]==m) checkStudentLove[i][j]++;
+                int ny=i+dy[k];
+                int nx=j+dx[k];
+                if (ny>=n||ny<0||nx>=n||nx<0) continue;
+                for (auto & a: studentsList[studentOne]){
+                    if (a==board[ny][nx]) nearFriend++;
                 }
+                if (board[ny][nx]==0) nearEmpty++;
             }
-        }
-    }
-}
-
-void decideLocation(int studentNumber) {
-    int maximumStudent=-1;
-    int maximumEmptyCount=-1;
-    int row=0;
-    int col=0;
-
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<n; j++) {
-
-            if (map[i][j]!=0) continue;
-            if (maximumStudent<checkStudentLove[i][j]) {
-                col=i;
-                row=j;
-                maximumStudent=checkStudentLove[i][j];
-                maximumEmptyCount=emptyMap[i][j];
-            }
-            else if (maximumStudent==checkStudentLove[i][j]) {
-                if (maximumEmptyCount<emptyMap[i][j]) {
-                    col=i;
-                    row=j;
-                    maximumEmptyCount=emptyMap[i][j];
-                }else if (maximumEmptyCount==emptyMap[i][j]) {
-                    if (col>i) {
-                        col=i;
-                        row=j;
-                    }else if (col==i) {
-                        if (row>j) {
-                            row=j;
+            if (nearFriend>nearMaxFriends) {
+                decideY=i;
+                decideX=j;
+                nearMaxFriends=nearFriend;
+                nearMaxEmpty=nearEmpty;
+            }else if (nearFriend==nearMaxFriends) {
+                if (nearEmpty>nearMaxEmpty) {
+                    decideY=i;
+                    decideX=j;
+                    nearMaxEmpty=nearEmpty;
+                }else if (nearEmpty==nearMaxEmpty) {
+                    if (decideY>i) {
+                        decideY=i;
+                        decideX=j;
+                    }else if (decideY==i) {
+                        if (decideX>j) {
+                            decideX=j;
                         }
                     }
                 }
             }
         }
     }
-    map[col][row]=studentNumber;
+
+    board[decideY][decideX]=studentOne;
 }
 
-void game(int studentNumber) {
-    checkLove(studentNumber);
-    decideLocation(studentNumber);
-}
+void calculateScore() {
+    int score=0;
 
-int result() {
-    int total=0;
-        for (int i=0; i<n; i++) {
-            for (int j=0; j<n; j++) {
-                int friendlyCount=0;
-                int initFriend=map[i][j];
-
-                for (int k=0; k<4; k++) {
-                    int ny=i+dy[k];
-                    int nx=j+dx[k];
-                    if (ny>=n||ny<0||nx>=n||nx<0) continue;
-                    for (int m=0; m<arr[initFriend].size(); m++){
-                        if (map[ny][nx]==arr[initFriend][m]) friendlyCount++;
-                    }
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            int studentNumber=board[i][j];
+            int likeCount=0;
+            for (int a=0; a<4; a++) {
+                int ny=i+dy[a];
+                int nx=j+dx[a];
+                if (ny>=n||ny<0||nx>=n||nx<0) continue;
+                for (auto & b : studentsList[studentNumber]){
+                    if (b==board[ny][nx]) likeCount++;
                 }
-                if (friendlyCount==1) total+=1;
-                if (friendlyCount==2) total+=10;
-                if (friendlyCount==3) total+=100;
-                if (friendlyCount==4) total+=1000;
             }
+            if (likeCount==0) score+=0;
+            if (likeCount==1) score+=1;
+            if (likeCount==2) score+=10;
+            if (likeCount==3) score+=100;
+            if (likeCount==4) score+=1000;
         }
-    return total;
+    }
+    cout<<score;
 }
 
 void input() {
     cin>>n;
 
-    for (int i=0; i<n*n; i++) {
-        int studentNumber;
-        cin>>studentNumber;
-        for (int j=0; j<4; j++) {
-            cin>>arr[studentNumber][j];
-        }
-        game(studentNumber);
+    for (int i=1; i<=n*n; i++) {
+        int studentOne, one,two,three,four;
+        cin>>studentOne>>one>>two>>three>>four;
+        studentsList[studentOne].push_back(one);
+        studentsList[studentOne].push_back(two);
+        studentsList[studentOne].push_back(three);
+        studentsList[studentOne].push_back(four);
+        choiceLocation(studentOne);
     }
-    int total=result();
-    cout<<total;
 }
-int main() {
 
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
+void game() {
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            board[i][j]=0;
+        }
+    }
     input();
+    calculateScore();
+}
 
-    return 0;
+int main() {
+    game();
 }
