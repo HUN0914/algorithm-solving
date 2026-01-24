@@ -3,91 +3,104 @@
 
 using namespace std;
 
+int dy[8]={-1,-1, 0, 1, 1,1, 0, -1};
+int dx[8]={0,  1, 1, 1, 0,-1,-1,-1 };
+int N,M,K;
+
 struct fireball {
-    int r,c,m,s,d;
+    int m;
+    int s;
+    int d;
 };
 
-int N,M,K;
-vector<fireball>fireballs;
+vector<vector<vector<fireball>>> fireballMap((51), vector<vector<fireball>>(51));
 
-int dr[8] = {-1,-1, 0, 1, 1, 1, 0,-1};
-int dc[8] = { 0, 1, 1, 1, 0,-1,-1,-1};
+void move() {
+    vector<vector<vector<fireball>>> copyFireballMap((51), vector<vector<fireball>>(51));
 
-void input() {
-    cin>>N>>M>>K;
-
-    for (int i=0; i<M; i++) {
-        int r,c,m,s,d;
-        cin>>r>>c>>m>>s>>d;
-        fireballs.push_back({r-1,c-1,m,s,d});
+    for (int i=1; i<=N; i++) {
+        for (int j=1; j<=N; j++) {
+            for (int k=fireballMap[i][j].size()-1; k>=0; k--) {
+                auto val = fireballMap[i][j][k];
+                int py=(i+(val.s%N)*dy[val.d]+N)%N+1;
+                int px=(j+(val.s%N)*dx[val.d]+N)%N+1;
+                copyFireballMap[py][px].push_back({val.m, val.s, val.d});
+            }
+        }
     }
+
+    fireballMap=copyFireballMap;
 }
 
-void merging(vector<vector<vector<fireball>>> fireballMap) {
-    vector<fireball> ballList;
+void checkOneUp() {
 
-    for (int r=0; r<N; r++) {
-        for (int c=0; c<N; c++) {
-            auto &cell = fireballMap[r][c];
-            if (cell.empty()) continue;
-
-            if (cell.size()==1) {
-                ballList.push_back(cell[0]);
-                continue;
-            }
-
-            int sumM=0; int sumS=0;
-            bool allDigit=true, allNotDigit=true;
-
-            for (auto& ball : cell) {
-                sumM+=ball.m;
-                sumS+=ball.s;
-                if (ball.d%2==0) allNotDigit=false;
-                else allDigit=false;
-            }
-            int newM=sumM/5;
-            if (newM == 0) continue;
-            int newS=sumS/(int)cell.size();
-            if (allDigit || allNotDigit) {
-                for (int i=0; i<8; i+=2) {
-                    ballList.push_back({r,c,newM,newS,i});
+    for (int i=1; i<=N; i++) {
+        for (int j=1; j<=N; j++) {
+            if (fireballMap[i][j].size()>1) {
+                int totalM=0;
+                int totalS=0;
+                bool isTwo= false;
+                bool isNotTwo = false;
+                for (int k=0; k<fireballMap[i][j].size(); k++) {
+                    auto val= fireballMap[i][j][k];
+                    totalS+=val.s;
+                    totalM+=val.m;
+                    if (val.d%2==0) isTwo=true;
+                    else isNotTwo=true;
                 }
-            }else {
-                for (int i=1; i<9; i+=2) {
-                    ballList.push_back({r,c,newM,newS,i});
+                int newM=totalM/5;
+                int newS=totalS/fireballMap[i][j].size();
+                fireballMap[i][j].clear();
+                if (newM!=0) {
+                    if (isNotTwo&&isTwo) {
+                        for (int k=1; k<9; k+=2) {
+                            fireballMap[i][j].push_back({newM,newS, k});
+                        }
+                    }else {
+                        for (int k=0; k<8; k+=2) {
+                            fireballMap[i][j].push_back({newM,newS, k});
+                        }
+                    }
                 }
             }
         }
     }
-    fireballs.swap(ballList);
 }
 
-void move() {
-    vector<vector<vector<fireball>>> fireballMap(N,vector<vector<fireball>>(N));
+int output() {
+    int total=0;
 
-    for (auto & ball : fireballs) {
-        int moveS=ball.s%N;
-        ball.r=(ball.r+moveS*dr[ball.d]+N)%N;
-        ball.c=(ball.c+moveS*dc[ball.d]+N)%N;
-        fireballMap[ball.r][ball.c].push_back(ball);
+    for (int i=1; i<=N; i++) {
+        for (int j=1; j<=N; j++) {
+            for (int k=0; k<fireballMap[i][j].size(); k++) {
+                total +=fireballMap[i][j][k].m;
+            }
+        }
     }
-    merging(fireballMap);
+
+    return total;
 }
 
-void game() {
+void input() {
+    cin>>N>>M>>K;
 
-    int result=0;
+    while (M--) {
+        int r,c,m,s,d;
+        cin>>r>>c>>m>>s>>d;
+        fireballMap[r][c].push_back({m,s,d});
+    }
 
-    input();
-    for (int i=0; i<K; i++) {
+    while (K--){
         move();
+        checkOneUp();
     }
 
-    for (auto& ball :fireballs){
-        result+=ball.m;
-    }
-    cout<<result;
+    int answer=output();
+    cout<<answer;
 }
+
 int main() {
-    game();
+    input();
+
+    return 0;
 }
