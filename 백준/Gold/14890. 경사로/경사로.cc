@@ -1,120 +1,83 @@
 #include <iostream>
-#include <cstring>
 
 using namespace std;
 
+int board[101][101];
 int n,l;
-int testBoard[101][101];
-bool used[101];
 int result;
 
-void checkWidth() {
-
-
+void width() {
     for (int i=0; i<n; i++) {
-        bool isChecked=false;
-        memset(used,false,sizeof(used));
-        for (int j=1; j<n; j++) {
-            if (testBoard[i][j-1]!=testBoard[i][j]) { //경사로 오른방향일때
-                if (abs(testBoard[i][j-1]-testBoard[i][j])>1) {
-                    isChecked=true;
+        bool isUsed[101]={false};
+        bool isOkay=true;
+        for (int j=0; j<n-1; j++) {
+            if (abs(board[i][j]-board[i][j+1])>1) isOkay=false;
+            if (board[i][j]>board[i][j+1]) {
+                if (j+l>=n) {
+                    isOkay=false;
                     break;
                 }
-                if (testBoard[i][j-1]>testBoard[i][j]) {
-                    if (j+l>n){
-                        isChecked=true;
-                        break;
-                    }
-                    for (int k=j; k<j+l; k++) {
-                        if (testBoard[i][j]!=testBoard[i][k]||used[k]) {
-                            isChecked=true;
-                            break;
-                        }
-                    }
-                    if (isChecked) break;
-                    for (int k=j; k<j+l; k++) used[k]=true;
-                        j+=l-1;
-                }else {
-                    if (j-l<0) {
-                        isChecked=true;
-                        break;
-                    }
-                    for (int k=j-1; k>=j-l; k--) {
-                        if (testBoard[i][k]!=testBoard[i][j-1]||used[k]) {
-                            isChecked=true;
-                            break;
-                        }
-                    }
-                    if (isChecked) break;
-                    for (int k=j-1; k>=j-l; k--) used[k]=true;
+                for (int k=j+1; k<=j+l; k++) {
+                    if (isUsed[k]||board[i][j+1]!=board[i][k]) isOkay=false;
+                    isUsed[k]=true;
+                }
+            }else if (board[i][j]<board[i][j+1]){
+                if (j-l+1<0) {
+                    isOkay=false;
+                    break;
+                }
+                for (int k=j; k>j-l; k--) {
+                    if (isUsed[k]||board[i][j]!=board[i][k]) isOkay=false;
+                    isUsed[k]=true;
                 }
             }
         }
-        if (!isChecked) result++;
+        if (isOkay) result++;
     }
-
 }
 
-void checkHeight() {
-
-    for (int i=0 ;i<n; i++) used[i]=false;
-
+void height() {
     for (int i=0; i<n; i++) {
-        bool isChecked=false;
-        memset(used,false,sizeof(used));
-        for (int j=1; j<n; j++) {
-            if (testBoard[j-1][i]!=testBoard[j][i]) { //경사로 오른방향일때
-                if (abs(testBoard[j-1][i]-testBoard[j][i])>1) {
-                    isChecked=true;
+        bool isUsed[101]={false};
+        bool isOkay=true;
+        for (int j=0; j<n-1; j++) {
+            if (abs(board[j][i]-board[j+1][i])>1) isOkay=false;
+            if (board[j][i]>board[j+1][i]) {
+                if (j+l>=n) {
+                    isOkay=false;
                     break;
                 }
-                if (testBoard[j-1][i]>testBoard[j][i]) {
-                    if (j+l>n){
-                        isChecked=true;
-                        break;
-                    }
-                    for (int k=j; k<j+l; k++) {
-                        if (testBoard[j][i]!=testBoard[k][i]||used[k]) {
-                            isChecked=true;
-                            break;
-                        }
-                    }
-                    if (isChecked) break;
-                    for (int k=j; k<j+l; k++) used[k]=true;
-                    j+=l-1;
-                }else {
-                    if (j-l<0) {
-                        isChecked=true;
-                        break;
-                    }
-                    for (int k=j-1; k>=j-l; k--) {
-                        if (testBoard[k][i]!=testBoard[j-1][i]||used[k]) {
-                            isChecked=true;
-                            break;
-                        }
-                    }
-                    if (isChecked) break;
-                    for (int k=j-1; k>=j-l; k--) used[k]=true;
+                for (int k=j+1; k<=j+l; k++) {
+                    if (isUsed[k]||board[j+1][i]!=board[k][i]) isOkay=false;
+                    isUsed[k]=true;
+                }
+            }else if (board[j][i]<board[j+1][i]){
+                if (j-l+1<0) {
+                    isOkay=false;
+                    break;
+                }
+                for (int k=j; k>j-l; k--) {
+                    if (isUsed[k]||board[j][i]!=board[k][i]) isOkay=false;
+                    isUsed[k]=true;
                 }
             }
         }
-        if (!isChecked) result++;
+        if (isOkay) result++;
     }
 }
-
 
 void input() {
     cin>>n>>l;
-    for (int i=0; i<n; i++)
-        for (int j=0; j<n; j++)
-            cin>>testBoard[i][j];
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<n; j++) {
+            cin>>board[i][j];
+        }
+    }
+    width();
+    height();
+    cout<<result;
 }
 
 int main() {
-
     input();
-    checkWidth();
-    checkHeight();
-    cout<<result;
-
 }
