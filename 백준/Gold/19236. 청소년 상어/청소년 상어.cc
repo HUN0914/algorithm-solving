@@ -41,10 +41,8 @@ void moveFish(int sx, int sy) {
             fishes[i].y=ny;
             fishes[i].dir=nd;
 
-            if (target>0) {
                 fishes[target].x=x;
                 fishes[target].y=y;
-            }
             break;
         }
     }
