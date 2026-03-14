@@ -7,6 +7,8 @@ int maximum=0;
 int horse[4];
 int dice[10];
 
+//score,node의 싱크를 맞추는게 핵심인 문제. score의 location과 node배열의 location 동기화
+//이런문제 풀때는 다음 node정보를 담는 배열과, 점수를 담는 배열을 선언해서 동기화해주기
 int score[33]={0,
     2,4,6,8,10,12,14,16,18,
     20,22,24,26,28,30,32,34,36,38,
