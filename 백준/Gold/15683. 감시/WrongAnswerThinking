@@ -1,0 +1,307 @@
+- /*
+ 이방식 틀린이유
+ 내방식대로하면 1,2,3의 케이스를 다 탐색하긴함. 하지만 그이후에는 무조건
+ 2,3의 경우에 대해서만 탐색 (이거자체가 오류)
+ 그다음 3의 경우에만 탐색
+ 그래서 dfs를 쓸 때 어떤 조건에 따라 되는지부터 정확히 생각하기./
+ 또한 매 작업시에는 이전 배열의 저장값이 매우 중요하다. 이걸 꼭 저장해놓고 다시 dfs가 끝나면 그걸로 원복하는 방시긍로 적용하기
+ */
+
+```sql
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+struct cctv {
+    int locationY;
+    int locationX;
+    char number;
+};
+
+vector<cctv>cctvs;
+
+char board[8][8];
+char copyBoard[8][8];
+int n,m;
+
+bool isVisited[8];
+
+/*
+ 1번 : 한방향
+ 2번 : 양방향 <->
+ 3번 : 직각방향 위 옆
+ 4번 : 세방향
+ 5번 : All 방향
+ */
+
+int dy[4]={0,-1,0,1}; //0: 오른쪽, 1 : 위쪽, 2, 왼쪽, 3 :아래쪽
+int dx[4]={1,0,-1,0};
+int cctvCnt=0;
+int dir[2]={-1,1};
+
+int maximum=1e9;
+
+void BoardToCopyBoard() {
+    for (int aa=0; aa<n; aa++)
+        for (int bb=0; bb<m; bb++) copyBoard[aa][bb]=board[aa][bb];
+}
+
+void CopyBoardToBoard() {
+    for (int i=0; i<n; i++)
+        for (int j=0; j<m; j++) board[i][j]=copyBoard[i][j];
+}
+
+void dfs(int cnt) { //copy쪽 문제
+
+    if (cnt==cctvs.size()) {
+        int curMax=0;
+
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
+                if (board[i][j]=='0') curMax++;
+            }
+        }
+
+        cout<<"curCCTV vector : ";
+        for (auto & val : cctvs) cout<<val.number<<" ";
+        cout<<"\n";
+
+        maximum=min(curMax,maximum);
+        cout<<"curMax"<<curMax<<"\n";
+
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
+                cout<<board[i][j]<<" ";
+            }
+            cout<<"\n";
+        }
+        cout<<"\n\n";
+        CopyBoardToBoard();
+
+        return;
+    }
+
+    for (int i=cnt; i<cctvs.size(); i++) {
+
+        cout<<"cur i : "<<i<<"\n";
+        cout<<"cur cctvs[i] : "<<cctvs[i].number<<"\n";
+
+        if (cctvs[i].number=='1') {
+            for (int j=0; j<4; j++) {
+                int py=cctvs[i].locationY;
+                int px=cctvs[i].locationX;
+
+                while (true) {
+                    py+=dy[j];
+                    px+=dx[j];
+                    if (py<0||py>=n||px<0||px>=n) break;
+                    if (board[py][px]=='6')break;
+
+                    if (board[py][px]=='0') board[py][px]='#';
+                }
+
+                dfs(cnt+1);
+            }
+
+        }else if (cctvs[i].number=='2') {
+            //0,2 / 1,3
+            //0: 오른쪽, 1 : 위쪽, 2, 왼쪽, 3 :아래쪽
+            // || 연산자로 break처리하면 안됨?
+            for (int j=0; j<2; j++) {
+                int py=cctvs[i].locationY;
+                int px=cctvs[i].locationX;
+
+                //test
+                cout<<"cur py : "<<py<<" cur px : "<<px<<"\n";
+
+                int qy=py;
+                int qx=px;
+
+                while (true) {
+                    qy+=dy[(j+1)%4];
+                    qx+=dx[(j+1)%4];
+                    if (qy<0||qy>=n||qx<0||qx>=n) break;
+                    if (board[qy][qx]=='6')break;
+
+                    if (board[qy][qx]=='0') board[qy][qx]='#';
+                }
+
+                qy=py;
+                qx=px;
+
+                while (true) {
+                    qy+=dy[(j+3)%4];
+                    qx+=dx[(j+3)%4];
+                    if (qy<0||qy>=n||qx<0||qx>=n) break;
+                    if (board[qy][qx]=='6')break;
+
+                    if (board[qy][qx]=='0') board[qy][qx]='#';
+                }
+
+//                 for (int i=0; i<n; i++) {
+//                     for (int j=0; j<m; j++) {
+//                         cout<<board[i][j]<<"|";
+//                     }
+//                     cout<<"\n";
+//                 }
+//                 cout<<"\n\n";
+
+             //  BoardToCopyBoard();
+                dfs(cnt+1);
+            }
+
+        }else if (cctvs[i].number=='3') {
+            //[0,1], [1,2], [2,3], [3,0]
+            for (int j=0; j<4; j++) {
+                int py=cctvs[i].locationY;
+                int px=cctvs[i].locationX;
+
+                while (true) {
+                    py+=dy[j];
+                    px+=dx[j];
+                    if (py<0||py>=n||px<0||px>=n) break;
+                    if (board[py][px]=='6')break;
+
+                    if (board[py][px]=='0') board[py][px]='#';
+                }
+
+                py=cctvs[i].locationY;
+                px=cctvs[i].locationX;
+
+                while (true) {
+                    py+=dy[(j+1)%4];
+                    px+=dx[(j+1)%4];
+                    if (py<0||py>=n||px<0||px>=n) break;
+                    if (board[py][px]=='6')break;
+
+                    if (board[py][px]=='0') board[py][px]='#';
+                }
+
+                BoardToCopyBoard();
+                dfs(cnt+1);
+                CopyBoardToBoard();
+            }
+       }else if (cctvs[i].number=='4') {
+
+           for (int j=0; j<4; j++) {
+               int py=cctvs[i].locationY;
+               int px=cctvs[i].locationX;
+
+               while (true) {
+                   py+=dy[j];
+                   px+=dx[j];
+                   if (py<0||py>=n||px<0||px>=n) break;
+                   if (board[py][px]=='6')break;
+
+                   if (board[py][px]=='0') board[py][px]='#';
+               }
+
+               py=cctvs[i].locationY;
+               px=cctvs[i].locationX;
+
+               while (true) {
+                   py+=dy[(j+1)%4];
+                   px+=dx[(j+1)%4];
+                   if (py<0||py>=n||px<0||px>=n) break;
+                   if (board[py][px]=='6')break;
+
+                   if (board[py][px]=='0') board[py][px]='#';
+               }
+
+               py=cctvs[i].locationY;
+               px=cctvs[i].locationX;
+
+               while (true) {
+                   py+=dy[(j+2)%4];
+                   px+=dx[(j+2)%4];
+                   if (py<0||py>=n||px<0||px>=n) break;
+                   if (board[py][px]=='6')break;
+
+                   if (board[py][px]=='0') board[py][px]='#';
+               }
+
+               BoardToCopyBoard();
+               dfs(cnt+1);
+               CopyBoardToBoard();
+           }
+        }else if (cctvs[i].number=='5') {
+            int py=cctvs[i].locationY;
+            int px=cctvs[i].locationX;
+
+            while (true) {
+                py+=dy[0];
+                px+=dx[0];
+                if (py<0||py>=n||px<0||px>=n) break;
+                if (board[py][px]=='6')break;
+
+                if (board[py][px]=='0') board[py][px]='#';
+            }
+
+            py=cctvs[i].locationY;
+            px=cctvs[i].locationX;
+
+            while (true) {
+                py+=dy[1];
+                px+=dx[1];
+                if (py<0||py>=n||px<0||px>=n) break;
+                if (board[py][px]=='6')break;
+
+                if (board[py][px]=='0') board[py][px]='#';
+            }
+
+            py=cctvs[i].locationY;
+            px=cctvs[i].locationX;
+
+            while (true) {
+                py+=dy[2];
+                px+=dx[2];
+                if (py<0||py>=n||px<0||px>=n) break;
+                if (board[py][px]=='6')break;
+
+                if (board[py][px]=='0') board[py][px]='#';
+            }
+
+            py=cctvs[i].locationY;
+            px=cctvs[i].locationX;
+
+            while (true) {
+                py+=dy[3];
+                px+=dx[3];
+                if (py<0||py>=n||px<0||px>=n) break;
+                if (board[py][px]=='6')break;
+
+                if (board[py][px]=='0') board[py][px]='#';
+            }
+            BoardToCopyBoard();
+            dfs(cnt+1);
+            CopyBoardToBoard();
+        }
+
+    }
+}
+
+void input() {
+    cin>>n>>m;
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<m; j++) {
+            cin>>board[i][j];
+            if (board[i][j]!='0'&&board[i][j]!='6') {
+                cctvs.push_back({i,j,board[i][j]});
+                cctvCnt++;
+            }
+        }
+    }
+
+    for (int i=0; i<n; i++)
+        for (int j=0; j<m; j++) copyBoard[i][j]=board[i][j];
+}
+
+int main() {
+    input();
+    dfs(0);
+;
+    cout<<maximum;
+    return 0;
+}
+```
