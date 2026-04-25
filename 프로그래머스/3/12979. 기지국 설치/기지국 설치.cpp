@@ -28,37 +28,39 @@ vector<point> pointes;
 
 int cal(int n, vector<int> stations, int w){
    
-    int range= 2*w+1;
+    int start=1;
     
     // 근데 기존에 주어진 것 중에서 겹치는 경우엔 어떻게 생각 ?
     // 직전 location 값 기준으로 뭐 하면 될거같긴한데..
     // 맨 처음에만 왼쪽 값 다 담아주고 맨 마지막에만 오른쪽 다 값 담아주고 중간은 늘 오른쪽 단위로만 체크하기
     
-    if(1<stations[0]-w){
-        pointes.push_back({1, stations[0]-w-1});
+    if(stations[0]+w<stations[1]){
+        pointes.push_back({stations[0]+w, stations[1]-w});
     }
-    
-    for(int i=0; i<stations.size()-1; i++){
-        int value = stations[i];
-        int nextValue = stations[i+1];
+
+    for(int i=1; i<stations.size()-1; i++){
+        int value= stations[i];
+        int nextValue=stations[i+1];
         
-        int start = value+w+1;
-        int end = nextValue-w-1;
-        
-        if(start<=end){
-            pointes.push_back({start, end});
+        if(value+w<nextValue-w){
+            pointes.push_back({value+w,nextValue-w});
         }
+        start=stations[i];
     }
     
-    if(stations.back()+w<n){
-        pointes.push_back({stations.back()+w+1, n});
+    
+    if(stations[stations.size()-1]+w<n){
+        pointes.push_back({stations[stations.size()-1]+w, n});
     }
     
     int total=0;
     
     for(int i=0; i<pointes.size(); i++){
-        int length=pointes[i].end-pointes[i].start+1;
-        total+=(length+range-1) / range;
+        if((pointes[i].end-pointes[i].start)%w>0){
+            total+=((pointes[i].end-pointes[i].start)/w)+1;
+        }else{
+            total+=((pointes[i].end-pointes[i].start)/w);
+        }
     }
     
     return total;
