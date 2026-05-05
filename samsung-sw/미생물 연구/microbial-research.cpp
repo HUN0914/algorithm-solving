@@ -234,24 +234,15 @@ void bfs(int number) {
 
 void game(int r1, int c1, int r2, int c2, int number) {
 
-    set<int> affected;
-
-    for (int i=r1; i<r2; i++) 
-        for (int j=c1; j<c2; j++)
-            if (board[i][j] != -1)
-                affected.insert(board[i][j]);
-
     for (int i=r1; i<r2; i++) 
         for (int j=c1; j<c2; j++) board[i][j]=number;
 
-    for (int x : affected) bfs(x);
+    for (int i=0; i<number; i++) bfs(i);
 
     moveCreature();
 
     cout<<nearCheck()<<"\n";
 }
-
-
 
 void input() {
     cin>>N>>Q;
