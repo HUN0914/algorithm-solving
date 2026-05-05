@@ -236,8 +236,6 @@ void game(int r1, int c1, int r2, int c2, int number) {
 
     set<int> affected;
 
-    // 기존 미생물 기록
-
     for (int i=r1; i<r2; i++) 
         for (int j=c1; j<c2; j++)
             if (board[i][j] != -1)
