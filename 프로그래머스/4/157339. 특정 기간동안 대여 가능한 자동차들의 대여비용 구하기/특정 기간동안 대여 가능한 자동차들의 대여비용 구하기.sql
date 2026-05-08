@@ -1,0 +1,28 @@
+select c.CAR_ID, c.CAR_TYPE, FLOOR (
+c.DAILY_FEE * 30 * (100-p.DISCOUNT_RATE) / 100
+) as FEE
+
+from CAR_RENTAL_COMPANY_CAR c
+
+inner join CAR_RENTAL_COMPANY_DISCOUNT_PLAN p
+on c.CAR_TYPE = p.CAR_TYPE
+
+where c.CAR_TYPE IN ('세단', 'SUV')
+
+and p.DURATION_TYPE='30일 이상'
+
+and c.CAR_ID NOT IN (
+    select CAR_ID
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    where START_DATE<='2022-11-30' and END_DATE>='2022-11-01'
+)
+
+and FLOOR(
+    c.DAILY_FEE*30*(100-p.DISCOUNT_RATE) / 100
+) >=500000
+
+and FLOOR(
+    c.DAILY_FEE*30*(100-p.DISCOUNT_RATE)/100
+) <2000000
+
+order by FEE DESC, c.CAR_TYPE ASC, c.CAR_ID desc;
