@@ -23,31 +23,29 @@ import heapq
 
 INF = float('inf')
 
+def print_grid(grid):
+    for row in grid:
+        print(*row)
+    print()
 def solution(n, s, a, b, fares):
     answer = 0
-    graph = {i: {j: None for j in range(n + 1)} for i in range(n + 1)}
+    # graph = {i: {j: None for j in range(n + 1)} for i in range(n + 1)}
     visited = [[INF for _ in range(n + 1)] for _ in range(n + 1)]
     def init():
+        for i in range(1, n + 1):
+            visited[i][i] = 0
+            
         for start, end, weight in fares:
-            graph[start][end] = weight
-            graph[end][start] = weight
+            visited[start][end] = weight
+            visited[end][start] = weight
             
-    def dijkstra(start):
-        hq = []
-        visited[start][start] = 0
-        for i in graph[start].keys():
-            if graph[start][i] is not None:
-                heapq.heappush(hq, (graph[start][i], i))
-        
-        while hq:
-            curr_weight, curr_node = heapq.heappop(hq)
-            if visited[start][curr_node] <= curr_weight:
-                continue
-            
-            visited[start][curr_node] = curr_weight
-            for i in graph[curr_node].keys():
-                if graph[curr_node][i] is not None and visited[start][i] > visited[start][curr_node] + graph[curr_node][i]:
-                    heapq.heappush(hq, (graph[curr_node][i] + visited[start][curr_node], i))
+    def floyd():
+        for stop in range(1, n + 1):
+            for start in range(1, n + 1):
+                for end in range(1, n + 1):
+                    if start == end:
+                        continue
+                    visited[start][end] = min(visited[start][end], visited[start][stop] + visited[stop][end])
 
     def calc():
         min_value = INF
@@ -56,11 +54,6 @@ def solution(n, s, a, b, fares):
         return min_value
         
     init()
-    for i in range(1, n + 1):
-        dijkstra(i)
-    
-    answer_visited = [False for _ in range(n + 1)]
-    answer_visited[s] = True
-    
+    floyd()
     answer = calc()
     return answer
